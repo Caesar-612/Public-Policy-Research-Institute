@@ -1,0 +1,112 @@
+---
+title: "test1"
+author: "ChunEn Chu"
+date: "2021/9/9"
+output: pdf_document
+---
+```{r}
+library(tidyverse)
+library(foreign)
+library(labelled)
+library(haven)
+library(readstata13)
+library(pollster)
+#for crosstab topline
+library(knitr)
+#get_labels()
+```
+
+```{r}
+dta = read_dta("AVA_PRRI_Wave 2_final_wtd_banners_v3.dta")
+dta%>%
+  select(Respid,age, educ) ->dta1
+sav = read_sav("AVA_PRRI_Wave 2_final_wtd.sav")
+```
+
+```{r}
+count(sav)
+# ALL american 5851
+sav%>%
+  merge(dta1, by = "Respid") -> test1
+test1%>%
+select(educ, age, Q2_1)
+#the age and education data is in dta
+test1%>%
+  select(Q2_1, weight,age, educ)%>%
+  na.omit()%>%
+  crosstab_3way(x= educ, y= Q2_1, z = age, weight = weight)
+# need to make group on age
+```
+
+```{r}
+test1 %>%
+  select(age)%>%
+  transmute(group = ifelse(age %in% 18:29, "B",
+         ifelse(age %in% 30:49, "C", ifelse(age %in% 50:64, "D", ifelse(age %in% 65:150, "E", "skip"))))) ->t1
+test1 <- cbind(test1, as.vector(t1))
+test1%>%
+  select(age, group)
+# make group to 
+```
+
+```{r}
+#test1$Q2_1%>%
+#  get_labels()%>%
+#  replace_labels(., labels = c("High school or Less", "High school or Less", "Some College", "College Graduate", "Post-Graduate"))
+# recode()
+  
+values <- c("High school or Less", "High school or Less", "Some College", "College Graduate", "Post-Graduate", "skip")
+test1$Education <- values[test1$educ]
+test1%>%
+  select(Education, educ)
+test1%>%
+  mutate(edu_group = recode(Education, "High school or Less" = "F",
+                               "Some College" = "G",
+                               "College Graduate" = "H",
+                               "Post-Graduate" = "J")) ->test1
+#failed to use mutate(case_when)
+```
+
+```{r}
+#get_labels(test1$Q2_1)
+#get_labels(test1$educ)
+```
+
+```{r}
+test1%>%
+  select(Q2_1, age, group, educ, edu_group)%>%
+  group_by(group, edu_group)%>%
+  count()%>%
+  summarize()
+  
+```
+```{r}
+unique(test1$Q2_1)
+#from here we can see that -1 represent skipped
+unique(test1$educ)
+#from here we can see that 99 represent skipped
+```
+```{r}
+test1 %>%
+  mutate(Q2 = recode(Q2_1, "-1" = "Skipped",
+                     "1" = "Very worried",
+                     "2" = "Somewhat worried",
+                     "3" = "Not too worried",
+                     "4" = "Not at all worried"))->test1
+```
+
+```{r}
+test1%>%
+  select(Q2_1, Q2, age, group, Education, edu_group)
+```
+
+```{r}
+test1%>%
+  crosstab(x= Q2, y = group, weight = weight) ->t1
+
+test1%>%
+  crosstab(x= Q2, y= edu_group, weight = weight) ->t2
+merge(t1, t2, key = t1$Q2)%>%
+  kable()
+```
+

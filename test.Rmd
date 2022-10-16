@@ -1,0 +1,160 @@
+---
+title: "test1"
+author: "ChunEn Chu"
+date: "2021/9/9"
+output:
+  html_document:
+    df_print: paged
+---
+```{r}
+library(tidyverse)
+library(foreign)
+library(labelled)
+library(haven)
+library(readstata13)
+library(pollster)
+#for crosstab topline
+library(knitr)
+library(sjlabelled)
+#get_labels()
+#error on sjlabelled
+library(kableExtra)
+```
+
+```{r}
+dta = read_dta("AVA_PRRI_Wave 2_final_wtd_banners_v3.dta")
+dta%>%
+  select(Respid,age, educ) ->dta1
+sav = read_sav("AVA_PRRI_Wave 2_final_wtd.sav")
+```
+
+```{r}
+count(sav)
+# ALL american 5851
+sav%>%
+  merge(dta1, by = "Respid") -> test1
+test1%>%
+select(educ, age, Q2_1)
+#the age and education data is in dta
+test1%>%
+  select(Q2_1, weight,age, educ)%>%
+  na.omit()%>%
+  crosstab_3way(x= educ, y= Q2_1, z = age, weight = weight)%>%
+  head()
+# need to make group on age
+```
+
+```{r, error=TRUE}
+#error place
+test1%>%
+  select(age)%>%
+  mutate(Status = case_when(age < 29 ~ "B",
+            29< age < 50 ~ "C",
+            49 < age < 65 ~ "D",
+            age > 64 ~ "E"))
+```
+
+```{r}
+test1 %>%
+  select(age)%>%
+  transmute(group = ifelse(age %in% 18:29, "B",
+         ifelse(age %in% 30:49, "C", ifelse(age %in% 50:64, "D", ifelse(age %in% 65:150, "E", "skip"))))) ->t1
+test1 <- cbind(test1, as.vector(t1))
+test1%>%
+  select(age, group)%>%
+  head()
+# make group to 
+```
+
+```{r}
+#test1$Q2_1%>%
+#  get_labels()%>%
+#  replace_labels(., labels = c("High school or Less", "High school or Less", "Some College", "College Graduate", "Post-Graduate"))
+# recode()
+  
+values <- c("High school or Less", "High school or Less", "Some College", "College Graduate", "Post-Graduate", "skip")
+test1$Education <- values[test1$educ]
+test1%>%
+  select(Education, educ)
+test1%>%
+  mutate(edu_group = recode(Education, "High school or Less" = "F",
+                               "Some College" = "G",
+                               "College Graduate" = "H",
+                               "Post-Graduate" = "I")) ->test1
+#failed to use mutate(case_when)
+```
+
+```{r}
+get_labels(test1$Q2_1)
+get_labels(test1$educ)
+#error here
+```
+
+```{r}
+test1%>%
+  select(Q2_1, age, group, educ, edu_group)%>%
+  group_by(group, edu_group)%>%
+  count()%>%
+  summarize()
+```
+
+```{r}
+unique(test1$Q2_1)
+#from here we can see that -1 represent skipped
+unique(test1$educ)
+#from here we can see that 99 represent skipped
+```
+
+```{r}
+test1 %>%
+  mutate(Q2 = recode(Q2_1, "-1" = "Skipped",
+                     "1" = "Very worried",
+                     "2" = "Somewhat worried",
+                     "3" = "Not too worried",
+                     "4" = "Not at all worried"))->test1
+```
+
+```{r}
+test1%>%
+  select(group)%>%
+  count(group)
+```
+
+```{r}
+All_Americans_A <- apply(t3%>%select(-Q2),1,sum)/8
+
+All_Americans_A[1] <- All_Americans_A[1]*4
+
+t4 <- cbind(All_Americans_A,t3)
+t4$Q2[1] <- "Unweighted sample size"
+```
+
+```{r}
+t4%>%
+  relocate(All_Americans_A, .after = Q2)%>%
+  mutate_if(is.numeric,round)
+```
+
+```{r}
+t4%>%
+  relocate(All_Americans_A, .after = Q2)%>%
+  kable(caption ="Q2.a How worried, if at all, are you about each of the following? You or someone in your family will get sick from the coronavirus", digits = 0)
+```
+
+
+```{r}
+t4%>%
+  relocate(All_Americans_A, .after = Q2)%>%
+  #rename(" " = "Q2")%>%
+  kable(caption ="Q2.a How worried, if at all, are you about each of the following? You or someone in your family will get sick from the coronavirus", digits = 0,col.names = c(" ", "All_Americans\nA", '18-30\nB', '30-49\nC', '50-64\nD', '65+\nE', 'HighSchool or Less\nF', 'Some College\nG', 'College  Gradute\nH', 'Post-Gradute\nI')) %>%
+  kable_styling("striped", full_width = F,
+                position = "left", font_size = 12) %>%
+  add_header_above(c(" " = 1, "All Americans" = 1, "Age groups" = 4, "Education" = 4))
+#In kable you can customize the column name by col.name = ("any name")
+```
+
+```{r}
+test1 %>%
+  select(age)
+```
+

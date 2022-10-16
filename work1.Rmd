@@ -1,0 +1,298 @@
+---
+title: "work1"
+author: "ChunEn Chu"
+date: "2021/9/28"
+output:
+  html_document:
+    df_print: paged
+  pdf_document:
+    fig_width: 12
+    fig_height: 5
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(foreign)
+library(labelled)
+library(haven)
+library(readstata13)
+library(pollster)
+library(knitr)
+library(kableExtra)
+library(sjlabelled)
+```
+
+#Read file
+```{r}
+dta = read_dta("AVA_PRRI_Wave 2_final_wtd_banners_v3.dta")
+dta%>%
+  select(Respid,age, educ) ->dta1
+sav = read_sav("AVA_PRRI_Wave 2_final_wtd.sav")
+```
+
+#combine data
+```{r}
+sav%>%
+  merge(dta1, by = "Respid") -> test1
+```
+
+#make group for age
+```{r}
+test1 %>%
+  select(age)%>%
+  transmute(group = ifelse(age %in% 18:29, "B",
+         ifelse(age %in% 30:49, "C", ifelse(age %in% 50:64, 
+                                            "D", ifelse(age %in% 65:150, "E", "skip"))))) ->t1
+test1 <- cbind(test1, as.vector(t1))
+```
+
+#make education group
+```{r}
+values <- c("High school or Less", "High school or Less", "Some College",
+            "College Graduate", "Post-Graduate", "skip")
+test1$Education <- values[test1$educ]
+test1%>%
+  mutate(edu_group = recode(Education, "High school or Less" = "F",
+                               "Some College" = "G",
+                               "College Graduate" = "H",
+                               "Post-Graduate" = "I")) ->test1
+```
+
+#build seperate crosstab
+```{r}
+test1%>%
+  crosstab(x= Q2_1, y = group, weight = weight,pct_type = "column") ->t1
+
+test1%>%
+  crosstab(x= Q2_1, y= edu_group, weight = weight, pct_type = "column") ->t2
+```
+
+#combine the tab and create unweight sample size
+```{r}
+merge(t1, t2, key = t1$Q2)-> t3
+All_Americans_A <- apply(t3%>%select(-Q2_1),1,sum)/8
+
+All_Americans_A[1] <- All_Americans_A[1]*4
+
+t4 <- cbind(All_Americans_A,t3)
+#t4$Q2_1[1] <- "Unweighted sample size"
+#t4[t4 =="n"] <- "Unweighted sample size"
+```
+
+#create crosstab as the sample
+```{r, message=FALSE}
+t4%>%
+  relocate(All_Americans_A, .after = Q2_1)%>%
+  #rename(" " = "Q2_1")%>%
+  kable(caption ="Q2.a How worried, if at all, are you about each of the following? You or someone in your family will get sick from the coronavirus", digits = 0, 
+        col.names = c(" ", "All_Americans\nA", '18-30\nB', '30-49\nC', '50-64\nD', '65+\nE',
+                      'HighSchool or Less\nF', 'Some College\nG', 'College  Gradute\nH',
+                      'Post-Gradute\nI')) %>%
+  kable_styling("striped", full_width = F,
+                position = "left", font_size = 12) %>%
+  add_header_above(c(" " = 1, "All Americans" = 1, "Age groups" = 4, "Education" = 4))
+#In kable you can customize the column name by col.name = ("any name")
+
+```
+
+```{r}
+t4%>%
+  relocate(All_Americans_A, .after = Q2_1)%>%
+  #rename(" " = "Q2_1")%>%
+  kable(caption =attr(test1$Q2_1, 'label'), digits = 0, 
+        col.names = c(" ", "All_Americans\nA", '18-30\nB', '30-49\nC', '50-64\nD', '65+\nE',
+                      'HighSchool or Less\nF', 'Some College\nG', 'College  Gradute\nH',
+                      'Post-Gradute\nI')) %>%
+  kable_styling("striped", full_width = F,
+                position = "left", font_size = 12) %>%
+  add_header_above(c(" " = 1, "All Americans" = 1, "Age groups" = 4, "Education" = 4))
+
+```
+
+
+```{r}
+create_crosstab <- function(x) {
+  x %>%
+  select(age)%>%
+  transmute(group = ifelse(age %in% 18:29, "B",
+         ifelse(age %in% 30:49, "C", ifelse(age %in% 50:64, 
+                                            "D", ifelse(age %in% 65:150, "E", "skip"))))) ->t1
+x <- cbind(x, as.vector(t1))
+values <- c("High school or Less", "High school or Less", "Some College",
+            "College Graduate", "Post-Graduate", "skip")
+x$Education <- values[x$educ]
+x%>%
+  mutate(edu_group = recode(Education, "High school or Less" = "F",
+                               "Some College" = "G",
+                               "College Graduate" = "H",
+                               "Post-Graduate" = "I")) ->x
+crosstab(df = x, x= Q2_1, y = group, weight = weight,pct_type = "column") ->t1
+
+crosstab(df = x, x= Q2_1, y= edu_group, weight = weight, pct_type = "column") ->t2
+merge(t1, t2, key = t1[1])-> t3
+All_Americans_A <- apply(t3%>%select(-Q2_1),1,sum)/8
+
+All_Americans_A[1] <- All_Americans_A[1]*4
+
+t4 <- cbind(All_Americans_A,t3)
+t4$Q2_1[1] <- "Unweighted sample size"
+t4%>%
+  relocate(All_Americans_A, .after = Q2_1)%>%
+  #rename(" " = "Q2_1")%>%
+  kable(caption =attr(x$Q2_1, 'label'), digits = 0, 
+        col.names = c(" ", "All_Americans\nA", '18-30\nB', '30-49\nC', '50-64\nD', '65+\nE',
+                      'HighSchool or Less\nF', 'Some College\nG', 'College  Gradute\nH',
+                      'Post-Gradute\nI')) %>%
+  kable_styling("striped", full_width = F,
+                position = "left", font_size = 12) %>%
+  add_header_above(c(" " = 1, "All Americans" = 1, "Age groups" = 4, "Education" = 4))
+}
+create_crosstab(test1)
+```
+
+```{r}
+colnames(test1)
+```
+
+```{r}
+colnames(test1)%>%
+  str_detect("^Q")
+```
+
+```{r}
+str_extract(colnames(test1), "^Q\\d_\\d|^Q\\d\\w|_\\d|Q\\d\\d|^Q\\d\\w\\d_\\w")
+```
+
+```{r}
+cc <- test1%>%
+  colnames()%>%
+  str_subset("^Q")
+```
+
+
+```{r}
+for (i in cc[1]) {
+  table1 <- crosstab(df = test1, x = i, y = group, weight = weight,pct_type = "column")
+  print(table1)
+}
+library(rlang)
+for (i in cc[1]) {
+  table2 <- crosstab(df = test1, x = !!sym(i), y = group, weight = weight,pct_type = "column")
+  print(table2)
+}
+library(rlang)
+col1 <- colnames(test1)
+for (i in cc[1:3]) {
+  table1 <- crosstab(df = test1, x = !!sym(i), y = group, weight = weight,pct_type = "column")
+  print(table1)
+}
+
+```
+
+```{r}
+for (i in cc[1:5]) {
+  crosstab(df = test1, x= !!sym(i), y = group, weight = weight,pct_type = "column") ->t1
+  crosstab(df = test1, x= !!sym(i), y= edu_group, weight = weight, pct_type = "column") ->t2
+merge(t1, t2, key = t1[1])-> t3
+All_Americans_A <- apply(t3%>%select(-i),1,sum)/8
+
+All_Americans_A[1] <- All_Americans_A[1]*4
+
+t4 <- cbind(All_Americans_A,t3)
+t4[t4 =="n"] <- "Unweighted sample size"
+t4%>%
+  relocate(All_Americans_A, .after = i)%>%
+  kable(caption =attr(i, 'label'), digits = 0, 
+        col.names = c(" ", "All_Americans\nA", '18-30\nB', '30-49\nC', '50-64\nD', '65+\nE',
+                      'HighSchool or Less\nF', 'Some College\nG', 'College  Gradute\nH',
+                      'Post-Gradute\nI')) %>%
+  kable_styling("striped", full_width = F,
+                position = "left", font_size = 12) %>%
+  add_header_above(c(" " = 1, "All Americans" = 1, "Age groups" = 4, "Education" = 4)) ->t4
+print(t4)
+}
+```
+```{r}
+create_crosstab1 <- function(x) {
+  x %>%
+  select(age)%>%
+  transmute(group1 = ifelse(age %in% 18:29, "B",
+         ifelse(age %in% 30:49, "C", ifelse(age %in% 50:64, 
+                                            "D", ifelse(age %in% 65:150, "E", "skip"))))) ->t1
+x <- cbind(x, as.vector(t1))
+values <- c("High school or Less", "High school or Less", "Some College",
+            "College Graduate", "Post-Graduate", "skip")
+x$Education <- values[x$educ]
+x%>%
+  mutate(edu_group1 = recode(Education, "High school or Less" = "F",
+                               "Some College" = "G",
+                               "College Graduate" = "H",
+                               "Post-Graduate" = "I")) ->x
+for (i in str_subset(colnames(x),"^Q")[5:7]) {
+  crosstab(df = x, x= !!sym(i), y = group1, weight = weight,pct_type = "column") ->t1
+  crosstab(df = x, x= !!sym(i), y= edu_group1, weight = weight, pct_type = "column") ->t2
+merge(t1, t2, key = t1[1])-> t3
+All_Americans_A <- apply(t3%>%select(-i),1,sum)/8
+
+All_Americans_A[1] <- All_Americans_A[1]*4
+
+t4 <- cbind(All_Americans_A,t3)
+t4[t4 =="n"] <- "Unweighted sample size"
+t4%>%
+  relocate(All_Americans_A, .after = i)%>%
+  kable(caption =get_label(i), digits = 0, 
+        col.names = c(" ", "All_Americans\nA", '18-30\nB', '30-49\nC', '50-64\nD', '65+\nE',
+                      'HighSchool or Less\nF', 'Some College\nG', 'College  Gradute\nH',
+                      'Post-Gradute\nI')) %>%
+  kable_styling("striped", full_width = F,
+                position = "left", font_size = 12) %>%
+  add_header_above(c(" " = 1, "All Americans" = 1, "Age groups" = 4, "Education" = 4))%>%
+  print()
+}
+}
+create_crosstab1(test1)
+```
+
+```{r}
+dta = read_dta("AVS 2021 with Banners V2_coded open ends.dta")
+dta1 = read_dta("AVA_PRRI_Wave 4_banners v2.dta")
+dta2 = read_dta("AVA_PRRI_Wave 4.dta")
+dta3 = read_dta("AVS 2021_final 9-30-21.dta")
+
+```
+
+```{r}
+
+test1 <- structure(list(weight = c(0.2158, 0.799, 0.611, 0.4969, 0.3469, 
+1.0107, 0.6946, 0.9415, 1.4008, 0.6192), Q2_1 = structure(c(4, 
+4, 2, 2, 3, 3, 3, 2, 3, 2), label = "How worried, if at all, are you about each of the following? - You or someone in your family will get sick with COVID-19", format.spss = "F40.0", display_width = 5L, labels = c(Skipped = -1, 
+`Very worried` = 1, `Somewhat worried` = 2, `Not too worried` = 3, 
+`Not at all worried` = 4), class = c("haven_labelled", "vctrs_vctr", 
+"double")), Q2_2 = structure(c(3, 4, 2, 4, 3, 3, 4, 2, 3, 4), label = "How worried, if at all, are you about each of the following? - You might experience serious side effects from the COVID-19 vaccine", format.spss = "F40.0", display_width = 5L, labels = c(Skipped = -1, 
+`Very worried` = 1, `Somewhat worried` = 2, `Not too worried` = 3, 
+`Not at all worried` = 4), class = c("haven_labelled", "vctrs_vctr", 
+"double")), group = c("E", "E", "E", "D", "E", "E", "D", "E", 
+"D", "E")), row.names = c(NA, -10L), class = "data.frame")
+
+for (i in colnames(test1)[2]) {
+  table <- crosstab(
+    df = test1, 
+    x = !!sym(i), 
+    y = group, 
+    weight = weight, 
+    pct_type = "column")%>%
+    kable(caption = get_label(test1[[i]]))
+  print(table)
+}
+
+crosstab(
+    df = test1, 
+    x = Q2_1, 
+    y = group, 
+    weight = weight, 
+    pct_type = "column")%>%
+    kable(caption = get_label(test1$Q2_1))%>%
+  dput()
+
+```
+

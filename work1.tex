@@ -1,0 +1,840 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={work1},
+  pdfauthor={ChunEn Chu},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{work1}
+\author{ChunEn Chu}
+\date{2021/9/28}
+
+\begin{document}
+\maketitle
+
+\#Read file
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dta }\OtherTok{=} \FunctionTok{read\_dta}\NormalTok{(}\StringTok{"AVA\_PRRI\_Wave 2\_final\_wtd\_banners\_v3.dta"}\NormalTok{)}
+\NormalTok{dta}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(Respid,age, educ) }\OtherTok{{-}\textgreater{}}\NormalTok{dta1}
+\NormalTok{sav }\OtherTok{=} \FunctionTok{read\_sav}\NormalTok{(}\StringTok{"AVA\_PRRI\_Wave 2\_final\_wtd.sav"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\#combine data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sav}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{merge}\NormalTok{(dta1, }\AttributeTok{by =} \StringTok{"Respid"}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{ test1}
+\end{Highlighting}
+\end{Shaded}
+
+\#make group for age
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test1 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(age)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{transmute}\NormalTok{(}\AttributeTok{group =} \FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{18}\SpecialCharTok{:}\DecValTok{29}\NormalTok{, }\StringTok{"B"}\NormalTok{,}
+         \FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{30}\SpecialCharTok{:}\DecValTok{49}\NormalTok{, }\StringTok{"C"}\NormalTok{, }\FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{50}\SpecialCharTok{:}\DecValTok{64}\NormalTok{, }
+                                            \StringTok{"D"}\NormalTok{, }\FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{65}\SpecialCharTok{:}\DecValTok{150}\NormalTok{, }\StringTok{"E"}\NormalTok{, }\StringTok{"skip"}\NormalTok{))))) }\OtherTok{{-}\textgreater{}}\NormalTok{t1}
+\NormalTok{test1 }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(test1, }\FunctionTok{as.vector}\NormalTok{(t1))}
+\end{Highlighting}
+\end{Shaded}
+
+\#make education group
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{values }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"High school or Less"}\NormalTok{, }\StringTok{"High school or Less"}\NormalTok{, }\StringTok{"Some College"}\NormalTok{,}
+            \StringTok{"College Graduate"}\NormalTok{, }\StringTok{"Post{-}Graduate"}\NormalTok{, }\StringTok{"skip"}\NormalTok{)}
+\NormalTok{test1}\SpecialCharTok{$}\NormalTok{Education }\OtherTok{\textless{}{-}}\NormalTok{ values[test1}\SpecialCharTok{$}\NormalTok{educ]}
+\NormalTok{test1}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{edu\_group =} \FunctionTok{recode}\NormalTok{(Education, }\StringTok{"High school or Less"} \OtherTok{=} \StringTok{"F"}\NormalTok{,}
+                               \StringTok{"Some College"} \OtherTok{=} \StringTok{"G"}\NormalTok{,}
+                               \StringTok{"College Graduate"} \OtherTok{=} \StringTok{"H"}\NormalTok{,}
+                               \StringTok{"Post{-}Graduate"} \OtherTok{=} \StringTok{"I"}\NormalTok{)) }\OtherTok{{-}\textgreater{}}\NormalTok{test1}
+\end{Highlighting}
+\end{Shaded}
+
+\#build seperate crosstab
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test1}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{crosstab}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Q2\_1, }\AttributeTok{y =}\NormalTok{ group, }\AttributeTok{weight =}\NormalTok{ weight,}\AttributeTok{pct\_type =} \StringTok{"column"}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{t1}
+
+\NormalTok{test1}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{crosstab}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Q2\_1, }\AttributeTok{y=}\NormalTok{ edu\_group, }\AttributeTok{weight =}\NormalTok{ weight, }\AttributeTok{pct\_type =} \StringTok{"column"}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{t2}
+\end{Highlighting}
+\end{Shaded}
+
+\#combine the tab and create unweight sample size
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{merge}\NormalTok{(t1, t2, }\AttributeTok{key =}\NormalTok{ t1}\SpecialCharTok{$}\NormalTok{Q2)}\OtherTok{{-}\textgreater{}}\NormalTok{ t3}
+\NormalTok{All\_Americans\_A }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(t3}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{Q2\_1),}\DecValTok{1}\NormalTok{,sum)}\SpecialCharTok{/}\DecValTok{8}
+
+\NormalTok{All\_Americans\_A[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ All\_Americans\_A[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{*}\DecValTok{4}
+
+\NormalTok{t4 }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(All\_Americans\_A,t3)}
+\CommentTok{\#t4$Q2\_1[1] \textless{}{-} "Unweighted sample size"}
+\CommentTok{\#t4[t4 =="n"] \textless{}{-} "Unweighted sample size"}
+\end{Highlighting}
+\end{Shaded}
+
+\#create crosstab as the sample
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{t4}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{relocate}\NormalTok{(All\_Americans\_A, }\AttributeTok{.after =}\NormalTok{ Q2\_1)}\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\#rename(" " = "Q2\_1")\%\textgreater{}\%}
+  \FunctionTok{kable}\NormalTok{(}\AttributeTok{caption =}\StringTok{"Q2.a How worried, if at all, are you about each of the following? You or someone in your family will get sick from the coronavirus"}\NormalTok{, }\AttributeTok{digits =} \DecValTok{0}\NormalTok{, }
+        \AttributeTok{col.names =} \FunctionTok{c}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{"All\_Americans}\SpecialCharTok{\textbackslash{}n}\StringTok{A"}\NormalTok{, }\StringTok{\textquotesingle{}18{-}30}\SpecialCharTok{\textbackslash{}n}\StringTok{B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}30{-}49}\SpecialCharTok{\textbackslash{}n}\StringTok{C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}50{-}64}\SpecialCharTok{\textbackslash{}n}\StringTok{D\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}65+}\SpecialCharTok{\textbackslash{}n}\StringTok{E\textquotesingle{}}\NormalTok{,}
+                      \StringTok{\textquotesingle{}HighSchool or Less}\SpecialCharTok{\textbackslash{}n}\StringTok{F\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Some College}\SpecialCharTok{\textbackslash{}n}\StringTok{G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}College  Gradute}\SpecialCharTok{\textbackslash{}n}\StringTok{H\textquotesingle{}}\NormalTok{,}
+                      \StringTok{\textquotesingle{}Post{-}Gradute}\SpecialCharTok{\textbackslash{}n}\StringTok{I\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\AttributeTok{full\_width =}\NormalTok{ F,}
+                \AttributeTok{position =} \StringTok{"left"}\NormalTok{, }\AttributeTok{font\_size =} \DecValTok{12}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_header\_above}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{" "} \OtherTok{=} \DecValTok{1}\NormalTok{, }\StringTok{"All Americans"} \OtherTok{=} \DecValTok{1}\NormalTok{, }\StringTok{"Age groups"} \OtherTok{=} \DecValTok{4}\NormalTok{, }\StringTok{"Education"} \OtherTok{=} \DecValTok{4}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-7}Q2.a How worried, if at all, are you about each of the following? You or someone in your family will get sick from the coronavirus}
+\fontsize{12}{14}\selectfont
+\begin{tabular}[t]{l|r|r|r|r|r|r|r|r|r}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{All Americans} & \multicolumn{4}{c|}{Age groups} & \multicolumn{4}{c}{Education} \\
+\cline{2-2} \cline{3-6} \cline{7-10}
+  & All\_Americans
+A & 18-30
+B & 30-49
+C & 50-64
+D & 65+
+E & HighSchool or Less
+F & Some College
+G & College  Gradute
+H & Post-Gradute
+I\\
+\hline
+n & 5851 & 1091 & 1894 & 1619 & 1248 & 2210 & 1766 & 1038 & 837\\
+\hline
+Not at all worried & 21 & 22 & 18 & 19 & 25 & 19 & 24 & 19 & 19\\
+\hline
+Not too worried & 35 & 31 & 29 & 38 & 39 & 31 & 35 & 36 & 38\\
+\hline
+Skipped & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0\\
+\hline
+Somewhat worried & 31 & 31 & 34 & 29 & 26 & 30 & 29 & 34 & 32\\
+\hline
+Very worried & 13 & 15 & 18 & 13 & 9 & 19 & 12 & 11 & 10\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#In kable you can customize the column name by col.name = ("any name")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{t4}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{relocate}\NormalTok{(All\_Americans\_A, }\AttributeTok{.after =}\NormalTok{ Q2\_1)}\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\#rename(" " = "Q2\_1")\%\textgreater{}\%}
+  \FunctionTok{kable}\NormalTok{(}\AttributeTok{caption =}\FunctionTok{attr}\NormalTok{(test1}\SpecialCharTok{$}\NormalTok{Q2\_1, }\StringTok{\textquotesingle{}label\textquotesingle{}}\NormalTok{), }\AttributeTok{digits =} \DecValTok{0}\NormalTok{, }
+        \AttributeTok{col.names =} \FunctionTok{c}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{"All\_Americans}\SpecialCharTok{\textbackslash{}n}\StringTok{A"}\NormalTok{, }\StringTok{\textquotesingle{}18{-}30}\SpecialCharTok{\textbackslash{}n}\StringTok{B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}30{-}49}\SpecialCharTok{\textbackslash{}n}\StringTok{C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}50{-}64}\SpecialCharTok{\textbackslash{}n}\StringTok{D\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}65+}\SpecialCharTok{\textbackslash{}n}\StringTok{E\textquotesingle{}}\NormalTok{,}
+                      \StringTok{\textquotesingle{}HighSchool or Less}\SpecialCharTok{\textbackslash{}n}\StringTok{F\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Some College}\SpecialCharTok{\textbackslash{}n}\StringTok{G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}College  Gradute}\SpecialCharTok{\textbackslash{}n}\StringTok{H\textquotesingle{}}\NormalTok{,}
+                      \StringTok{\textquotesingle{}Post{-}Gradute}\SpecialCharTok{\textbackslash{}n}\StringTok{I\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\AttributeTok{full\_width =}\NormalTok{ F,}
+                \AttributeTok{position =} \StringTok{"left"}\NormalTok{, }\AttributeTok{font\_size =} \DecValTok{12}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_header\_above}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{" "} \OtherTok{=} \DecValTok{1}\NormalTok{, }\StringTok{"All Americans"} \OtherTok{=} \DecValTok{1}\NormalTok{, }\StringTok{"Age groups"} \OtherTok{=} \DecValTok{4}\NormalTok{, }\StringTok{"Education"} \OtherTok{=} \DecValTok{4}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-8}How worried, if at all, are you about each of the following? - You or someone in your family will get sick with COVID-19}
+\fontsize{12}{14}\selectfont
+\begin{tabular}[t]{l|r|r|r|r|r|r|r|r|r}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{All Americans} & \multicolumn{4}{c|}{Age groups} & \multicolumn{4}{c}{Education} \\
+\cline{2-2} \cline{3-6} \cline{7-10}
+  & All\_Americans
+A & 18-30
+B & 30-49
+C & 50-64
+D & 65+
+E & HighSchool or Less
+F & Some College
+G & College  Gradute
+H & Post-Gradute
+I\\
+\hline
+n & 5851 & 1091 & 1894 & 1619 & 1248 & 2210 & 1766 & 1038 & 837\\
+\hline
+Not at all worried & 21 & 22 & 18 & 19 & 25 & 19 & 24 & 19 & 19\\
+\hline
+Not too worried & 35 & 31 & 29 & 38 & 39 & 31 & 35 & 36 & 38\\
+\hline
+Skipped & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0\\
+\hline
+Somewhat worried & 31 & 31 & 34 & 29 & 26 & 30 & 29 & 34 & 32\\
+\hline
+Very worried & 13 & 15 & 18 & 13 & 9 & 19 & 12 & 11 & 10\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{create\_crosstab }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+\NormalTok{  x }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(age)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{transmute}\NormalTok{(}\AttributeTok{group =} \FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{18}\SpecialCharTok{:}\DecValTok{29}\NormalTok{, }\StringTok{"B"}\NormalTok{,}
+         \FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{30}\SpecialCharTok{:}\DecValTok{49}\NormalTok{, }\StringTok{"C"}\NormalTok{, }\FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{50}\SpecialCharTok{:}\DecValTok{64}\NormalTok{, }
+                                            \StringTok{"D"}\NormalTok{, }\FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{65}\SpecialCharTok{:}\DecValTok{150}\NormalTok{, }\StringTok{"E"}\NormalTok{, }\StringTok{"skip"}\NormalTok{))))) }\OtherTok{{-}\textgreater{}}\NormalTok{t1}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(x, }\FunctionTok{as.vector}\NormalTok{(t1))}
+\NormalTok{values }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"High school or Less"}\NormalTok{, }\StringTok{"High school or Less"}\NormalTok{, }\StringTok{"Some College"}\NormalTok{,}
+            \StringTok{"College Graduate"}\NormalTok{, }\StringTok{"Post{-}Graduate"}\NormalTok{, }\StringTok{"skip"}\NormalTok{)}
+\NormalTok{x}\SpecialCharTok{$}\NormalTok{Education }\OtherTok{\textless{}{-}}\NormalTok{ values[x}\SpecialCharTok{$}\NormalTok{educ]}
+\NormalTok{x}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{edu\_group =} \FunctionTok{recode}\NormalTok{(Education, }\StringTok{"High school or Less"} \OtherTok{=} \StringTok{"F"}\NormalTok{,}
+                               \StringTok{"Some College"} \OtherTok{=} \StringTok{"G"}\NormalTok{,}
+                               \StringTok{"College Graduate"} \OtherTok{=} \StringTok{"H"}\NormalTok{,}
+                               \StringTok{"Post{-}Graduate"} \OtherTok{=} \StringTok{"I"}\NormalTok{)) }\OtherTok{{-}\textgreater{}}\NormalTok{x}
+\FunctionTok{crosstab}\NormalTok{(}\AttributeTok{df =}\NormalTok{ x, }\AttributeTok{x=}\NormalTok{ Q2\_1, }\AttributeTok{y =}\NormalTok{ group, }\AttributeTok{weight =}\NormalTok{ weight,}\AttributeTok{pct\_type =} \StringTok{"column"}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{t1}
+
+\FunctionTok{crosstab}\NormalTok{(}\AttributeTok{df =}\NormalTok{ x, }\AttributeTok{x=}\NormalTok{ Q2\_1, }\AttributeTok{y=}\NormalTok{ edu\_group, }\AttributeTok{weight =}\NormalTok{ weight, }\AttributeTok{pct\_type =} \StringTok{"column"}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{t2}
+\FunctionTok{merge}\NormalTok{(t1, t2, }\AttributeTok{key =}\NormalTok{ t1[}\DecValTok{1}\NormalTok{])}\OtherTok{{-}\textgreater{}}\NormalTok{ t3}
+\NormalTok{All\_Americans\_A }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(t3}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{Q2\_1),}\DecValTok{1}\NormalTok{,sum)}\SpecialCharTok{/}\DecValTok{8}
+
+\NormalTok{All\_Americans\_A[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ All\_Americans\_A[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{*}\DecValTok{4}
+
+\NormalTok{t4 }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(All\_Americans\_A,t3)}
+\NormalTok{t4}\SpecialCharTok{$}\NormalTok{Q2\_1[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Unweighted sample size"}
+\NormalTok{t4}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{relocate}\NormalTok{(All\_Americans\_A, }\AttributeTok{.after =}\NormalTok{ Q2\_1)}\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\#rename(" " = "Q2\_1")\%\textgreater{}\%}
+  \FunctionTok{kable}\NormalTok{(}\AttributeTok{caption =}\FunctionTok{attr}\NormalTok{(x}\SpecialCharTok{$}\NormalTok{Q2\_1, }\StringTok{\textquotesingle{}label\textquotesingle{}}\NormalTok{), }\AttributeTok{digits =} \DecValTok{0}\NormalTok{, }
+        \AttributeTok{col.names =} \FunctionTok{c}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{"All\_Americans}\SpecialCharTok{\textbackslash{}n}\StringTok{A"}\NormalTok{, }\StringTok{\textquotesingle{}18{-}30}\SpecialCharTok{\textbackslash{}n}\StringTok{B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}30{-}49}\SpecialCharTok{\textbackslash{}n}\StringTok{C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}50{-}64}\SpecialCharTok{\textbackslash{}n}\StringTok{D\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}65+}\SpecialCharTok{\textbackslash{}n}\StringTok{E\textquotesingle{}}\NormalTok{,}
+                      \StringTok{\textquotesingle{}HighSchool or Less}\SpecialCharTok{\textbackslash{}n}\StringTok{F\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Some College}\SpecialCharTok{\textbackslash{}n}\StringTok{G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}College  Gradute}\SpecialCharTok{\textbackslash{}n}\StringTok{H\textquotesingle{}}\NormalTok{,}
+                      \StringTok{\textquotesingle{}Post{-}Gradute}\SpecialCharTok{\textbackslash{}n}\StringTok{I\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\AttributeTok{full\_width =}\NormalTok{ F,}
+                \AttributeTok{position =} \StringTok{"left"}\NormalTok{, }\AttributeTok{font\_size =} \DecValTok{12}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_header\_above}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{" "} \OtherTok{=} \DecValTok{1}\NormalTok{, }\StringTok{"All Americans"} \OtherTok{=} \DecValTok{1}\NormalTok{, }\StringTok{"Age groups"} \OtherTok{=} \DecValTok{4}\NormalTok{, }\StringTok{"Education"} \OtherTok{=} \DecValTok{4}\NormalTok{))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colnames}\NormalTok{(test1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] "Respid"          "weight"          "complete_status" "Sample_Type"    
+##   [5] "Q2_1"            "Q2_2"            "Q2_3"            "Q2_4"           
+##   [9] "Q2_5"            "Q3_1"            "Q3_2"            "Q3_3"           
+##  [13] "Q3_4"            "Q3_5"            "Q4"              "Q4a"            
+##  [17] "Q5a_1"           "Q5a_2"           "Q5a_3"           "Q5a_4"          
+##  [21] "Q5a_5"           "Q5a_6"           "Q5b_1"           "Q5b_2"          
+##  [25] "Q5b_3"           "Q5b_4"           "Q5b_5"           "Q6_1"           
+##  [29] "Q6_2"            "Q6_3"            "Q6_4"            "Q6_5"           
+##  [33] "Q6_6"            "Q6_7"            "Q7a_1"           "Q7a_2"          
+##  [37] "Q7a_3"           "Q7a_4"           "Q7a_5"           "Q7a_6"          
+##  [41] "Q7a_7"           "Q7a_8"           "Q7a_10"          "Q7a_11"         
+##  [45] "Q7a_12"          "Q7a_13"          "Q7a2_1"          "Q7a2_2"         
+##  [49] "Q7a2_3"          "Q7a2_4"          "Q7a2_5"          "Q7b_1"          
+##  [53] "Q7b_2"           "Q7b_3"           "Q7b_4"           "Q7b_5"          
+##  [57] "Q7b_6"           "Q7b_7"           "Q7b_8"           "Q7b_10"         
+##  [61] "Q7b_11"          "Q7b_12"          "Q7b_13"          "Q7b2_a"         
+##  [65] "Q7b2_b"          "Q7b2_c"          "Q7b2_d"          "Q7b2_e"         
+##  [69] "Q8_1"            "Q8_3"            "Q8_4"            "Q8_5"           
+##  [73] "Q8_6"            "Q8_7"            "Q9_1"            "Q9_2"           
+##  [77] "Q9_3"            "Q9_5"            "Q9_9"            "Q9_11"          
+##  [81] "Q9_12"           "Q10_1"           "Q10_2"           "Q10_3"          
+##  [85] "Q10_4"           "Q10_5"           "Q10_6"           "Q10_7"          
+##  [89] "Q10_8"           "Q11_1"           "Q11_2"           "Q11_3"          
+##  [93] "Q11_4"           "Q11_5"           "Q11_6"           "Q11_7"          
+##  [97] "Q11_8"           "Q12_4"           "Q12_5"           "Q14"            
+## [101] "Q14_7_TEXT"      "QPID100"         "QPID110"         "QPID120"        
+## [105] "QPID130"         "Q21"             "Q22"             "Q23"            
+## [109] "Q24_new"         "Q24_new_4_TEXT"  "PPWORKA"         "REC"            
+## [113] "ppage"           "ppeducat"        "ppethm"          "ppgender"       
+## [117] "pphhsize"        "ppmsacat"        "ppreg4"          "pprent"         
+## [121] "ppstaten"        "ppt18ov"         "xacslang"        "xurbanicity"    
+## [125] "xparty4"         "ppeduc5"         "ppinc7"          "ppmarit5"       
+## [129] "ppkid017"        "ppemploy"        "DOV_FORM"        "xspanish"       
+## [133] "ppp10012"        "pppa1715"        "pphi1301"        "pppa1634"       
+## [137] "pppa1902"        "pppa1903"        "pppa1904"        "pppa1905"       
+## [141] "ppp22001"        "pph20032"        "pph20033"        "pph20034"       
+## [145] "pph20035"        "pph20036"        "pph20037"        "pph21530"       
+## [149] "pph20038"        "pph20039"        "pph20040"        "pph20041"       
+## [153] "pph20042"        "pph20043"        "pph20107"        "pph20108"       
+## [157] "pph20045"        "ppp20197"        "ppp20071"        "age"            
+## [161] "educ"            "group"           "Education"       "edu_group"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colnames}\NormalTok{(test1)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{str\_detect}\NormalTok{(}\StringTok{"\^{}Q"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [13]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [25]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [37]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [49]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [61]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [73]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [85]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [97]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+## [109]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [121] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [133] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [145] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [157] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str\_extract}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(test1), }\StringTok{"\^{}Q}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d\_}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d|\^{}Q}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{w|\_}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d|Q}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d|\^{}Q}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{w}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d\_}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{w"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] NA     NA     NA     NA     "Q2_1" "Q2_2" "Q2_3" "Q2_4" "Q2_5" "Q3_1"
+##  [11] "Q3_2" "Q3_3" "Q3_4" "Q3_5" NA     "Q4a"  "Q5a"  "Q5a"  "Q5a"  "Q5a" 
+##  [21] "Q5a"  "Q5a"  "Q5b"  "Q5b"  "Q5b"  "Q5b"  "Q5b"  "Q6_1" "Q6_2" "Q6_3"
+##  [31] "Q6_4" "Q6_5" "Q6_6" "Q6_7" "Q7a"  "Q7a"  "Q7a"  "Q7a"  "Q7a"  "Q7a" 
+##  [41] "Q7a"  "Q7a"  "Q7a"  "Q7a"  "Q7a"  "Q7a"  "Q7a"  "Q7a"  "Q7a"  "Q7a" 
+##  [51] "Q7a"  "Q7b"  "Q7b"  "Q7b"  "Q7b"  "Q7b"  "Q7b"  "Q7b"  "Q7b"  "Q7b" 
+##  [61] "Q7b"  "Q7b"  "Q7b"  "Q7b"  "Q7b"  "Q7b"  "Q7b"  "Q7b"  "Q8_1" "Q8_3"
+##  [71] "Q8_4" "Q8_5" "Q8_6" "Q8_7" "Q9_1" "Q9_2" "Q9_3" "Q9_5" "Q9_9" "Q9_1"
+##  [81] "Q9_1" "Q10"  "Q10"  "Q10"  "Q10"  "Q10"  "Q10"  "Q10"  "Q10"  "Q11" 
+##  [91] "Q11"  "Q11"  "Q11"  "Q11"  "Q11"  "Q11"  "Q11"  "Q12"  "Q12"  "Q14" 
+## [101] "Q14"  NA     NA     NA     NA     "Q21"  "Q22"  "Q23"  "Q24"  "Q24" 
+## [111] NA     NA     NA     NA     NA     NA     NA     NA     NA     NA    
+## [121] NA     NA     NA     NA     NA     NA     NA     NA     NA     NA    
+## [131] NA     NA     NA     NA     NA     NA     NA     NA     NA     NA    
+## [141] NA     NA     NA     NA     NA     NA     NA     NA     NA     NA    
+## [151] NA     NA     NA     NA     NA     NA     NA     NA     NA     NA    
+## [161] NA     NA     NA     NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cc }\OtherTok{\textless{}{-}}\NormalTok{ test1}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{colnames}\NormalTok{()}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{str\_subset}\NormalTok{(}\StringTok{"\^{}Q"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(rlang)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 載入套件：'rlang'
+\end{verbatim}
+
+\begin{verbatim}
+## 下列物件被遮斷自 'package:sjlabelled':
+## 
+##     as_character, as_label
+\end{verbatim}
+
+\begin{verbatim}
+## 下列物件被遮斷自 'package:purrr':
+## 
+##     %@%, as_function, flatten, flatten_chr, flatten_dbl, flatten_int,
+##     flatten_lgl, flatten_raw, invoke, list_along, modify, prepend,
+##     splice
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{col1 }\OtherTok{\textless{}{-}} \FunctionTok{colnames}\NormalTok{(test1)}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in}\NormalTok{ cc[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{]) \{}
+\NormalTok{  table1 }\OtherTok{\textless{}{-}} \FunctionTok{crosstab}\NormalTok{(}\AttributeTok{df =}\NormalTok{ test1, }\AttributeTok{x =} \SpecialCharTok{!!}\FunctionTok{sym}\NormalTok{(i), }\AttributeTok{y =}\NormalTok{ group, }\AttributeTok{weight =}\NormalTok{ weight,}\AttributeTok{pct\_type =} \StringTok{"column"}\NormalTok{)}
+  \FunctionTok{print}\NormalTok{(table1)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 5
+##   Q2_1                      B        C        D        E
+##   <chr>                 <dbl>    <dbl>    <dbl>    <dbl>
+## 1 Skipped               0.720    0.353    0.569    0.727
+## 2 Very worried         15.2     18.4     12.7      8.76 
+## 3 Somewhat worried     31.3     34.2     29.2     26.2  
+## 4 Not too worried      30.9     28.8     38.3     39.4  
+## 5 Not at all worried   22.0     18.3     19.3     24.9  
+## 6 n                  1091.    1894.    1619.    1248.   
+## # A tibble: 6 x 5
+##   Q2_2                     B        C        D        E
+##   <chr>                <dbl>    <dbl>    <dbl>    <dbl>
+## 1 Skipped               1.60    0.434    0.657    0.833
+## 2 Very worried         14.1    19.0     13.8      7.67 
+## 3 Somewhat worried     24.1    26.2     21.9     15.4  
+## 4 Not too worried      25.6    29.0     32.9     32.8  
+## 5 Not at all worried   34.6    25.3     30.8     43.3  
+## 6 n                  1091.   1894.    1619.    1248.   
+## # A tibble: 6 x 5
+##   Q2_3                      B        C        D        E
+##   <chr>                 <dbl>    <dbl>    <dbl>    <dbl>
+## 1 Skipped               0.720    0.588    0.552    0.820
+## 2 Very worried         11.2     15.6     10.0      5.44 
+## 3 Somewhat worried     20.8     28.2     23.2     16.5  
+## 4 Not too worried      36.2     32.1     37.0     37.6  
+## 5 Not at all worried   31.1     23.5     29.3     39.6  
+## 6 n                  1091.    1894.    1619.    1248.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in}\NormalTok{ cc[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{]) \{}
+  \FunctionTok{crosstab}\NormalTok{(}\AttributeTok{df =}\NormalTok{ test1, }\AttributeTok{x=} \SpecialCharTok{!!}\FunctionTok{sym}\NormalTok{(i), }\AttributeTok{y =}\NormalTok{ group, }\AttributeTok{weight =}\NormalTok{ weight,}\AttributeTok{pct\_type =} \StringTok{"column"}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{t1}
+  \FunctionTok{crosstab}\NormalTok{(}\AttributeTok{df =}\NormalTok{ test1, }\AttributeTok{x=} \SpecialCharTok{!!}\FunctionTok{sym}\NormalTok{(i), }\AttributeTok{y=}\NormalTok{ edu\_group, }\AttributeTok{weight =}\NormalTok{ weight, }\AttributeTok{pct\_type =} \StringTok{"column"}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{t2}
+\FunctionTok{merge}\NormalTok{(t1, t2, }\AttributeTok{key =}\NormalTok{ t1[}\DecValTok{1}\NormalTok{])}\OtherTok{{-}\textgreater{}}\NormalTok{ t3}
+\NormalTok{All\_Americans\_A }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(t3}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{i),}\DecValTok{1}\NormalTok{,sum)}\SpecialCharTok{/}\DecValTok{8}
+
+\NormalTok{All\_Americans\_A[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ All\_Americans\_A[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{*}\DecValTok{4}
+
+\NormalTok{t4 }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(All\_Americans\_A,t3)}
+\NormalTok{t4[t4 }\SpecialCharTok{==}\StringTok{"n"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Unweighted sample size"}
+\NormalTok{t4}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{relocate}\NormalTok{(All\_Americans\_A, }\AttributeTok{.after =}\NormalTok{ i)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable}\NormalTok{(}\AttributeTok{caption =}\FunctionTok{attr}\NormalTok{(i, }\StringTok{\textquotesingle{}label\textquotesingle{}}\NormalTok{), }\AttributeTok{digits =} \DecValTok{0}\NormalTok{, }
+        \AttributeTok{col.names =} \FunctionTok{c}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{"All\_Americans}\SpecialCharTok{\textbackslash{}n}\StringTok{A"}\NormalTok{, }\StringTok{\textquotesingle{}18{-}30}\SpecialCharTok{\textbackslash{}n}\StringTok{B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}30{-}49}\SpecialCharTok{\textbackslash{}n}\StringTok{C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}50{-}64}\SpecialCharTok{\textbackslash{}n}\StringTok{D\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}65+}\SpecialCharTok{\textbackslash{}n}\StringTok{E\textquotesingle{}}\NormalTok{,}
+                      \StringTok{\textquotesingle{}HighSchool or Less}\SpecialCharTok{\textbackslash{}n}\StringTok{F\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Some College}\SpecialCharTok{\textbackslash{}n}\StringTok{G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}College  Gradute}\SpecialCharTok{\textbackslash{}n}\StringTok{H\textquotesingle{}}\NormalTok{,}
+                      \StringTok{\textquotesingle{}Post{-}Gradute}\SpecialCharTok{\textbackslash{}n}\StringTok{I\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\AttributeTok{full\_width =}\NormalTok{ F,}
+                \AttributeTok{position =} \StringTok{"left"}\NormalTok{, }\AttributeTok{font\_size =} \DecValTok{12}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_header\_above}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{" "} \OtherTok{=} \DecValTok{1}\NormalTok{, }\StringTok{"All Americans"} \OtherTok{=} \DecValTok{1}\NormalTok{, }\StringTok{"Age groups"} \OtherTok{=} \DecValTok{4}\NormalTok{, }\StringTok{"Education"} \OtherTok{=} \DecValTok{4}\NormalTok{)) }\OtherTok{{-}\textgreater{}}\NormalTok{t4}
+\FunctionTok{print}\NormalTok{(t4)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Note: Using an external vector in selections is ambiguous.
+## i Use `all_of(i)` instead of `i` to silence this message.
+## i See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+## This message is displayed once per session.
+\end{verbatim}
+
+\begin{verbatim}
+## \begingroup\fontsize{12}{14}\selectfont
+## 
+## \begin{tabular}{l|r|r|r|r|r|r|r|r|r}
+## \hline
+## \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{All Americans} & \multicolumn{4}{c|}{Age groups} & \multicolumn{4}{c}{Education} \\
+## \cline{2-2} \cline{3-6} \cline{7-10}
+##   & All\_Americans
+## A & 18-30
+## B & 30-49
+## C & 50-64
+## D & 65+
+## E & HighSchool or Less
+## F & Some College
+## G & College  Gradute
+## H & Post-Gradute
+## I\\
+## \hline
+## Unweighted sample size & 5851 & 1091 & 1894 & 1619 & 1248 & 2210 & 1766 & 1038 & 837\\
+## \hline
+## Not at all worried & 21 & 22 & 18 & 19 & 25 & 19 & 24 & 19 & 19\\
+## \hline
+## Not too worried & 35 & 31 & 29 & 38 & 39 & 31 & 35 & 36 & 38\\
+## \hline
+## Skipped & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0\\
+## \hline
+## Somewhat worried & 31 & 31 & 34 & 29 & 26 & 30 & 29 & 34 & 32\\
+## \hline
+## Very worried & 13 & 15 & 18 & 13 & 9 & 19 & 12 & 11 & 10\\
+## \hline
+## \end{tabular}
+## \endgroup{}
+## \begingroup\fontsize{12}{14}\selectfont
+## 
+## \begin{tabular}{l|r|r|r|r|r|r|r|r|r}
+## \hline
+## \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{All Americans} & \multicolumn{4}{c|}{Age groups} & \multicolumn{4}{c}{Education} \\
+## \cline{2-2} \cline{3-6} \cline{7-10}
+##   & All\_Americans
+## A & 18-30
+## B & 30-49
+## C & 50-64
+## D & 65+
+## E & HighSchool or Less
+## F & Some College
+## G & College  Gradute
+## H & Post-Gradute
+## I\\
+## \hline
+## Unweighted sample size & 5851 & 1091 & 1894 & 1619 & 1248 & 2210 & 1766 & 1038 & 837\\
+## \hline
+## Not at all worried & 34 & 35 & 25 & 31 & 43 & 26 & 35 & 34 & 43\\
+## \hline
+## Not too worried & 31 & 26 & 29 & 33 & 33 & 26 & 28 & 35 & 38\\
+## \hline
+## Skipped & 1 & 2 & 0 & 1 & 1 & 1 & 1 & 0 & 0\\
+## \hline
+## Somewhat worried & 21 & 24 & 26 & 22 & 15 & 27 & 22 & 21 & 13\\
+## \hline
+## Very worried & 13 & 14 & 19 & 14 & 8 & 19 & 14 & 10 & 6\\
+## \hline
+## \end{tabular}
+## \endgroup{}
+## \begingroup\fontsize{12}{14}\selectfont
+## 
+## \begin{tabular}{l|r|r|r|r|r|r|r|r|r}
+## \hline
+## \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{All Americans} & \multicolumn{4}{c|}{Age groups} & \multicolumn{4}{c}{Education} \\
+## \cline{2-2} \cline{3-6} \cline{7-10}
+##   & All\_Americans
+## A & 18-30
+## B & 30-49
+## C & 50-64
+## D & 65+
+## E & HighSchool or Less
+## F & Some College
+## G & College  Gradute
+## H & Post-Gradute
+## I\\
+## \hline
+## Unweighted sample size & 5851 & 1091 & 1894 & 1619 & 1248 & 2210 & 1766 & 1038 & 837\\
+## \hline
+## Not at all worried & 31 & 31 & 23 & 29 & 40 & 24 & 31 & 31 & 41\\
+## \hline
+## Not too worried & 36 & 36 & 32 & 37 & 38 & 31 & 36 & 40 & 40\\
+## \hline
+## Skipped & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0\\
+## \hline
+## Somewhat worried & 22 & 21 & 28 & 23 & 17 & 28 & 21 & 23 & 14\\
+## \hline
+## Very worried & 10 & 11 & 16 & 10 & 5 & 16 & 11 & 6 & 5\\
+## \hline
+## \end{tabular}
+## \endgroup{}
+## \begingroup\fontsize{12}{14}\selectfont
+## 
+## \begin{tabular}{l|r|r|r|r|r|r|r|r|r}
+## \hline
+## \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{All Americans} & \multicolumn{4}{c|}{Age groups} & \multicolumn{4}{c}{Education} \\
+## \cline{2-2} \cline{3-6} \cline{7-10}
+##   & All\_Americans
+## A & 18-30
+## B & 30-49
+## C & 50-64
+## D & 65+
+## E & HighSchool or Less
+## F & Some College
+## G & College  Gradute
+## H & Post-Gradute
+## I\\
+## \hline
+## Unweighted sample size & 5851 & 1091 & 1894 & 1619 & 1248 & 2210 & 1766 & 1038 & 837\\
+## \hline
+## Not at all worried & 33 & 33 & 23 & 30 & 42 & 24 & 32 & 35 & 44\\
+## \hline
+## Not too worried & 33 & 30 & 29 & 34 & 35 & 28 & 32 & 36 & 37\\
+## \hline
+## Skipped & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1\\
+## \hline
+## Somewhat worried & 21 & 23 & 26 & 22 & 15 & 27 & 22 & 20 & 13\\
+## \hline
+## Very worried & 12 & 13 & 20 & 13 & 7 & 20 & 13 & 8 & 5\\
+## \hline
+## \end{tabular}
+## \endgroup{}
+## \begingroup\fontsize{12}{14}\selectfont
+## 
+## \begin{tabular}{l|r|r|r|r|r|r|r|r|r}
+## \hline
+## \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{All Americans} & \multicolumn{4}{c|}{Age groups} & \multicolumn{4}{c}{Education} \\
+## \cline{2-2} \cline{3-6} \cline{7-10}
+##   & All\_Americans
+## A & 18-30
+## B & 30-49
+## C & 50-64
+## D & 65+
+## E & HighSchool or Less
+## F & Some College
+## G & College  Gradute
+## H & Post-Gradute
+## I\\
+## \hline
+## Unweighted sample size & 5851 & 1091 & 1894 & 1619 & 1248 & 2210 & 1766 & 1038 & 837\\
+## \hline
+## Not at all worried & 21 & 22 & 17 & 18 & 27 & 16 & 21 & 20 & 28\\
+## \hline
+## Not too worried & 33 & 28 & 27 & 35 & 37 & 27 & 31 & 34 & 40\\
+## \hline
+## Skipped & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0\\
+## \hline
+## Somewhat worried & 28 & 29 & 31 & 29 & 24 & 31 & 28 & 29 & 22\\
+## \hline
+## Very worried & 18 & 20 & 25 & 18 & 11 & 24 & 20 & 16 & 9\\
+## \hline
+## \end{tabular}
+## \endgroup{}
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{create\_crosstab1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+\NormalTok{  x }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(age)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{transmute}\NormalTok{(}\AttributeTok{group1 =} \FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{18}\SpecialCharTok{:}\DecValTok{29}\NormalTok{, }\StringTok{"B"}\NormalTok{,}
+         \FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{30}\SpecialCharTok{:}\DecValTok{49}\NormalTok{, }\StringTok{"C"}\NormalTok{, }\FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{50}\SpecialCharTok{:}\DecValTok{64}\NormalTok{, }
+                                            \StringTok{"D"}\NormalTok{, }\FunctionTok{ifelse}\NormalTok{(age }\SpecialCharTok{\%in\%} \DecValTok{65}\SpecialCharTok{:}\DecValTok{150}\NormalTok{, }\StringTok{"E"}\NormalTok{, }\StringTok{"skip"}\NormalTok{))))) }\OtherTok{{-}\textgreater{}}\NormalTok{t1}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(x, }\FunctionTok{as.vector}\NormalTok{(t1))}
+\NormalTok{values }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"High school or Less"}\NormalTok{, }\StringTok{"High school or Less"}\NormalTok{, }\StringTok{"Some College"}\NormalTok{,}
+            \StringTok{"College Graduate"}\NormalTok{, }\StringTok{"Post{-}Graduate"}\NormalTok{, }\StringTok{"skip"}\NormalTok{)}
+\NormalTok{x}\SpecialCharTok{$}\NormalTok{Education }\OtherTok{\textless{}{-}}\NormalTok{ values[x}\SpecialCharTok{$}\NormalTok{educ]}
+\NormalTok{x}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{edu\_group1 =} \FunctionTok{recode}\NormalTok{(Education, }\StringTok{"High school or Less"} \OtherTok{=} \StringTok{"F"}\NormalTok{,}
+                               \StringTok{"Some College"} \OtherTok{=} \StringTok{"G"}\NormalTok{,}
+                               \StringTok{"College Graduate"} \OtherTok{=} \StringTok{"H"}\NormalTok{,}
+                               \StringTok{"Post{-}Graduate"} \OtherTok{=} \StringTok{"I"}\NormalTok{)) }\OtherTok{{-}\textgreater{}}\NormalTok{x}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{str\_subset}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(x),}\StringTok{"\^{}Q"}\NormalTok{)[}\DecValTok{5}\SpecialCharTok{:}\DecValTok{7}\NormalTok{]) \{}
+  \FunctionTok{crosstab}\NormalTok{(}\AttributeTok{df =}\NormalTok{ x, }\AttributeTok{x=} \SpecialCharTok{!!}\FunctionTok{sym}\NormalTok{(i), }\AttributeTok{y =}\NormalTok{ group1, }\AttributeTok{weight =}\NormalTok{ weight,}\AttributeTok{pct\_type =} \StringTok{"column"}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{t1}
+  \FunctionTok{crosstab}\NormalTok{(}\AttributeTok{df =}\NormalTok{ x, }\AttributeTok{x=} \SpecialCharTok{!!}\FunctionTok{sym}\NormalTok{(i), }\AttributeTok{y=}\NormalTok{ edu\_group1, }\AttributeTok{weight =}\NormalTok{ weight, }\AttributeTok{pct\_type =} \StringTok{"column"}\NormalTok{) }\OtherTok{{-}\textgreater{}}\NormalTok{t2}
+\FunctionTok{merge}\NormalTok{(t1, t2, }\AttributeTok{key =}\NormalTok{ t1[}\DecValTok{1}\NormalTok{])}\OtherTok{{-}\textgreater{}}\NormalTok{ t3}
+\NormalTok{All\_Americans\_A }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(t3}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{i),}\DecValTok{1}\NormalTok{,sum)}\SpecialCharTok{/}\DecValTok{8}
+
+\NormalTok{All\_Americans\_A[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ All\_Americans\_A[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{*}\DecValTok{4}
+
+\NormalTok{t4 }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(All\_Americans\_A,t3)}
+\NormalTok{t4[t4 }\SpecialCharTok{==}\StringTok{"n"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Unweighted sample size"}
+\NormalTok{t4}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{relocate}\NormalTok{(All\_Americans\_A, }\AttributeTok{.after =}\NormalTok{ i)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable}\NormalTok{(}\AttributeTok{caption =}\FunctionTok{get\_label}\NormalTok{(i), }\AttributeTok{digits =} \DecValTok{0}\NormalTok{, }
+        \AttributeTok{col.names =} \FunctionTok{c}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{"All\_Americans}\SpecialCharTok{\textbackslash{}n}\StringTok{A"}\NormalTok{, }\StringTok{\textquotesingle{}18{-}30}\SpecialCharTok{\textbackslash{}n}\StringTok{B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}30{-}49}\SpecialCharTok{\textbackslash{}n}\StringTok{C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}50{-}64}\SpecialCharTok{\textbackslash{}n}\StringTok{D\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}65+}\SpecialCharTok{\textbackslash{}n}\StringTok{E\textquotesingle{}}\NormalTok{,}
+                      \StringTok{\textquotesingle{}HighSchool or Less}\SpecialCharTok{\textbackslash{}n}\StringTok{F\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Some College}\SpecialCharTok{\textbackslash{}n}\StringTok{G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}College  Gradute}\SpecialCharTok{\textbackslash{}n}\StringTok{H\textquotesingle{}}\NormalTok{,}
+                      \StringTok{\textquotesingle{}Post{-}Gradute}\SpecialCharTok{\textbackslash{}n}\StringTok{I\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable\_styling}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\AttributeTok{full\_width =}\NormalTok{ F,}
+                \AttributeTok{position =} \StringTok{"left"}\NormalTok{, }\AttributeTok{font\_size =} \DecValTok{12}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_header\_above}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{" "} \OtherTok{=} \DecValTok{1}\NormalTok{, }\StringTok{"All Americans"} \OtherTok{=} \DecValTok{1}\NormalTok{, }\StringTok{"Age groups"} \OtherTok{=} \DecValTok{4}\NormalTok{, }\StringTok{"Education"} \OtherTok{=} \DecValTok{4}\NormalTok{)) }\OtherTok{{-}\textgreater{}}\NormalTok{t4}
+\FunctionTok{print}\NormalTok{(t4)}
+\NormalTok{\}}
+\NormalTok{\}}
+\FunctionTok{create\_crosstab1}\NormalTok{(test1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## \begingroup\fontsize{12}{14}\selectfont
+## 
+## \begin{tabular}{l|r|r|r|r|r|r|r|r|r}
+## \hline
+## \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{All Americans} & \multicolumn{4}{c|}{Age groups} & \multicolumn{4}{c}{Education} \\
+## \cline{2-2} \cline{3-6} \cline{7-10}
+##   & All\_Americans
+## A & 18-30
+## B & 30-49
+## C & 50-64
+## D & 65+
+## E & HighSchool or Less
+## F & Some College
+## G & College  Gradute
+## H & Post-Gradute
+## I\\
+## \hline
+## Unweighted sample size & 5851 & 1091 & 1894 & 1619 & 1248 & 2210 & 1766 & 1038 & 837\\
+## \hline
+## Not at all worried & 21 & 22 & 17 & 18 & 27 & 16 & 21 & 20 & 28\\
+## \hline
+## Not too worried & 33 & 28 & 27 & 35 & 37 & 27 & 31 & 34 & 40\\
+## \hline
+## Skipped & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0\\
+## \hline
+## Somewhat worried & 28 & 29 & 31 & 29 & 24 & 31 & 28 & 29 & 22\\
+## \hline
+## Very worried & 18 & 20 & 25 & 18 & 11 & 24 & 20 & 16 & 9\\
+## \hline
+## \end{tabular}
+## \endgroup{}
+## \begingroup\fontsize{12}{14}\selectfont
+## 
+## \begin{tabular}{l|r|r|r|r|r|r|r|r|r}
+## \hline
+## \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{All Americans} & \multicolumn{4}{c|}{Age groups} & \multicolumn{4}{c}{Education} \\
+## \cline{2-2} \cline{3-6} \cline{7-10}
+##   & All\_Americans
+## A & 18-30
+## B & 30-49
+## C & 50-64
+## D & 65+
+## E & HighSchool or Less
+## F & Some College
+## G & College  Gradute
+## H & Post-Gradute
+## I\\
+## \hline
+## Unweighted sample size & 5851 & 1091 & 1894 & 1619 & 1248 & 2210 & 1766 & 1038 & 837\\
+## \hline
+## Skipped & 30 & 40 & 40 & 30 & 18 & 45 & 32 & 23 & 11\\
+## \hline
+## Yes, myself & 70 & 60 & 60 & 70 & 82 & 55 & 68 & 77 & 89\\
+## \hline
+## \end{tabular}
+## \endgroup{}
+## \begingroup\fontsize{12}{14}\selectfont
+## 
+## \begin{tabular}{l|r|r|r|r|r|r|r|r|r}
+## \hline
+## \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{All Americans} & \multicolumn{4}{c|}{Age groups} & \multicolumn{4}{c}{Education} \\
+## \cline{2-2} \cline{3-6} \cline{7-10}
+##   & All\_Americans
+## A & 18-30
+## B & 30-49
+## C & 50-64
+## D & 65+
+## E & HighSchool or Less
+## F & Some College
+## G & College  Gradute
+## H & Post-Gradute
+## I\\
+## \hline
+## Unweighted sample size & 5851 & 1091 & 1894 & 1619 & 1248 & 2210 & 1766 & 1038 & 837\\
+## \hline
+## Skipped & 27 & 26 & 33 & 27 & 27 & 39 & 26 & 20 & 17\\
+## \hline
+## Yes, family member & 73 & 74 & 67 & 73 & 73 & 61 & 74 & 80 & 83\\
+## \hline
+## \end{tabular}
+## \endgroup{}
+\end{verbatim}
+
+\end{document}

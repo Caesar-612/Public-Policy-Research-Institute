@@ -1,0 +1,118 @@
+---
+title: "vaccine"
+author: "ChunEn Chu"
+date: "2021/11/17"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(foreign)
+library(labelled)
+library(haven)
+library(readstata13)
+library(pollster)
+library(knitr)
+library(kableExtra)
+library(sjlabelled)
+library(rlang)
+```
+
+
+```{r}
+dta = read_dta("AVA_PRRI_Wave 2_final_wtd_banners_v3.dta")
+aa <- dta%>% colnames()%>%str_subset("^Q")
+dta%>%
+  select(-c(aa, weight)) -> dta1
+sav = read_sav("AVA_PRRI_Wave 2_final_wtd.sav")
+sav%>%
+  merge(dta1, by = "Respid") -> test1
+#vaccine_m,hesitant_m
+```
+
+```{r}
+r1 <- crosstab(df=test1, x = Q2_1, y = vaccine_m, weight = weight, pct_type = "column")
+r1 <- r1[,1:6]
+r2 <- crosstab(df =test1, x = Q2_1, y = hesitant_m, weight = weight, pct_type = "column")
+r2 <- r2[,1:4]
+r3 <- crosstab(df = test1, x = Q2_1, y = allcat_m, weight =weight, pct_type = "column" )%>%select(-Q2_1)%>%
+  rename("american" = "All Americans")
+```
+
+```{r}
+test1%>%
+  group_by(vaccine_m)%>%
+  count()%>%
+  data.frame()%>%
+  select(n) ->size1
+size1 <- size1[-6,]
+
+test1%>%
+  group_by(hesitant_m)%>%
+  count()%>%
+  data.frame()%>%
+  select(n) ->size2
+size2 <- size2[-4]
+
+a <- c(1,size1)
+b <- c(1,size2)
+
+r1%>%
+  filter(Q2_1 != "n") %>%
+  rbind(a) ->r1
+
+r2%>%
+  filter(Q2_1 != "n") %>%
+  rbind(a) ->r2
+```
+
+
+```{r}
+politics_table <- function(x){
+  for (i in str_subset(colnames(x),"^Q")[5:7]){
+r1 <- crosstab(df= x, x = !!sym(i), y = vaccine_m, weight = weight, pct_type = "column")
+r1 <- r1[,1:6]
+r2 <- crosstab(df = x, x = !!sym(i), y = hesitant_m, weight = weight, pct_type = "column")
+r2 <- r2[,1:4]
+r3 <- crosstab(df = x, x = !!sym(i), y = allcat_m, weight =weight, pct_type = "column" )%>%select(-i)%>%
+  rename("american" = "All Americans")
+x%>%
+  group_by(vaccine_m)%>%
+  count()%>%
+  data.frame()%>%
+  select(n) ->size1
+size1 <- size1[-6,]
+
+x%>%
+  group_by(hesitant_m)%>%
+  count()%>%
+  data.frame()%>%
+  select(n) ->size2
+size2 <- size2[-4,]
+
+a <- c(1,size1)
+b <-  c(1,size2)
+
+r1%>%
+  filter(!!sym(i) != "n") %>%
+  rbind(a) ->r1
+r2 %>%
+  filter(!!sym(i) != "n")%>%
+  rbind(b)%>%
+  select(-i)->r2
+
+r4 <- cbind(r1,r2,r3)
+r4[r4 == 1] <- "Unweighted sample size"
+r4%>%
+  relocate(american, .after = i)%>%
+  kable(caption =attr(i, "label"), digits = 0, 
+        col.names =  c(" ", "All_Americans\nA", 'Have received at least one dose\nB', 'Will get as soon as possible\nC', 'Wait and see\nD', 'Only if required\nE', 'Will not get\nF', 'Have or will get\nG', 'Wait and see or only if required\nH', 'Will not get\nI')) %>%
+  kable_styling("striped", full_width = F,
+                position = "left", font_size = 12) %>%
+  add_header_above(c(" " = 1, "All Americans" = 1, "Vaccine status" = 5, "3-way vaccine status" = 3))-> r5
+print(r5)
+  }
+}
+politics_table(test1)
+```

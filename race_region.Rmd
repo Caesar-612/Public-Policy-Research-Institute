@@ -1,0 +1,219 @@
+---
+title: "race_rigeon"
+author: "ChunEn Chu"
+date: "2021/10/18"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(foreign)
+library(labelled)
+library(haven)
+library(readstata13)
+library(pollster)
+library(knitr)
+library(kableExtra)
+library(sjlabelled)
+library(rlang)
+```
+
+```{r}
+dta = read_dta("AVA_PRRI_Wave 2_final_wtd_banners_v3.dta")
+dta%>%
+  select(Respid,region_m, race_m,age,educ,educ_m2,race,allcat_m) ->dta1
+sav = read_sav("AVA_PRRI_Wave 2_final_wtd.sav")
+sav%>%
+  merge(dta1, by = "Respid") -> test1
+```
+
+```{r}
+r1 <- crosstab(df= test1, x = Q2_1, y = race_m, weight = weight, pct_type = "column")
+r2 <- crosstab(df= test1, x = Q2_1, y= educ_m2, weight = weight, pct_type = "column")
+r3 <- crosstab(df= test1, x = Q2_1, y= region_m, weight = weight, pct_type = "column")
+r4 <- crosstab(df = test1, x = Q2_1, y = allcat_m, weight =weight, pct_type = "column" )%>%select(-Q2_1)%>%
+  rename("american" = "All Americans")
+
+```
+
+```{r}
+aa <- test1%>% colnames()%>%str_subset("^Q")
+test1%>%
+  select(-aa)->aa1
+dta$race
+```
+
+```{r}
+dta%>%
+  colnames()%>%
+  str_subset("edu|EDU") ->e1
+sav%>%
+  colnames()%>%
+  str_subset("edu|EDU")->e2
+dta%>%
+  select(e1)%>%
+  get_label()
+```
+
+
+```{r}
+#All_Americans_A <- apply(r4%>%select(-c(Q2_1,"Non-college graduate","College Graduate")),1,sum)/8
+
+#All_Americans_A[6] <- All_Americans_A[6]*4
+#r5 <- cbind(All_Americans_A,r4)
+#r5[r5 =="n"] <- "Unweighted sample size"
+```
+
+```{r}
+test1$race_m
+test2 <- test1%>%
+  filter(race_m == 1)
+test1%>%
+  group_by(race_m)%>%
+  count()%>%
+  table()%>%
+  colnames()%>%
+  as.numeric()%>%
+  rev()->size1
+
+test1%>%
+  filter(race_m == 1)%>%
+  group_by(educ_m2)%>%
+  count()%>%
+  table()%>%
+  colnames()%>%
+  as.numeric()%>%
+  rev()->size2
+test1%>%
+  group_by(region_m)%>%
+  count()%>%
+  table()%>%
+  colnames()%>%
+  as.numeric()%>%rev() -> size3
+```
+
+```{r}
+a <- c(1,size1)
+b <-  c(1,size2)
+c <-  c(1,size3)
+r1%>%
+  filter(Q2_1 != "n") %>%
+  rbind(a) ->r1
+r2 %>%
+  filter(Q2_1 != "n")%>%
+  rbind(b)%>%
+  select(-Q2_1)->r2
+r3%>%
+  filter(Q2_1 != "n")%>%
+  rbind(c)%>%
+  select(-Q2_1) ->r3
+```
+
+```{r}
+r5 <- cbind(r1,r2,r3,r4)
+#All_Americans_A <- apply(r4%>%select(-c(Q2_1)),1,sum)/11
+
+
+#All_Americans_A[6] <- r1%>%filter(Q2_1 == 1)%>%select(-Q2_1)%>%sum()
+#r6 <- cbind(All_Americans_A,r4)
+r5[r5 == 1] <- "Unweighted sample size"
+r5%>%
+  as_tibble()-> r5
+#it is necessary to use as_tibble() function otherwise we will create a non exsist column for the re-order
+r5 <- r5[c(6,2,3,4,5,1),]
+
+r5%>%
+  relocate(american, .after = Q2_1)%>%
+  kable(caption =attr(test1$Q2_1, "label"), digits = 0, 
+        col.names = c(" ", "All_Americans\nA", 'White\nB', 'Black\nC', 'Hispanic\nD', 'Other\nE',
+                      'Multiracial\nF', 'White, no 4-year college degree\nG', 'White, 4- year college degree +\nH',
+                      'NorthEast\nI', 'MidWest\nJ', 'South\nK','West\nL')) %>%
+  kable_styling("striped", full_width = F,
+                position = "left", font_size = 12) %>%
+  add_header_above(c(" " = 1, "All Americans" = 1, "Race/Ethnicity" = 5, "White education" = 2, "Region" = 4))
+```
+
+
+
+clean the data
+```{r}
+#remove the value that is dummy and NA by using filter
+dta%>%
+  filter(polaffil <=4|polaffil>=99)%>%
+  mutate(polaffil1 = recode(polaffil,"1" = "Republican", "2" = "Democrat", "3" = "Independent", "4" = "Something else", "99" = "Skipped"))%>%
+  select(polaffil1)
+         
+#replace the value 56789 to NA and then drop the NA
+#values <- c("Republican", "Democrat", "Independent",
+#            "Something else", "NA", "NA", "NA", "NA", "NA", "Skipped")
+#dta$polaffil <- values[dta$polaffil]
+#dta$polaffil%>%
+#  na.omit()
+dta$party7_m2 <- replace_labels(dta$party7_m2,labels = c("Republican" = 1,"Republican" = 2,"Republican" = 3, "Independent" = 4, "Democrat" = 5, "Democrat" = 6, "Democrat" = 7))
+#allcat_m
+```
+
+```{r}
+race_table <- function(x){
+  for (i in str_subset(colnames(x),"^Q")[5:7]){
+r1 <- crosstab(df= x, x = !!sym(i), y = race_m, weight = weight, pct_type = "column")
+r2 <- crosstab(df= x, x = !!sym(i), y= educ_m2, weight = weight, pct_type = "column")
+r3 <- crosstab(df= x, x = !!sym(i), y= region_m, weight = weight, pct_type = "column")
+r4 <- crosstab(df = x, x = !!sym(i), y = allcat_m, weight =weight, pct_type = "column" )%>%select("All Americans")%>%
+  rename("american" = "All Americans")
+x%>%
+  group_by(race_m)%>%
+  count()%>%
+  table()%>%
+  colnames()%>%
+  as.numeric()%>%
+  rev()->size1
+
+x%>%
+  filter(race_m == 1)%>%
+  group_by(educ_m2)%>%
+  count()%>%
+  table()%>%
+  colnames()%>%
+  as.numeric()%>%
+  rev()->size2
+x%>%
+  group_by(region_m)%>%
+  count()%>%
+  table()%>%
+  colnames()%>%
+  as.numeric()%>%rev() -> size3
+a <- c(1,size1)
+b <-  c(1,size2)
+c <-  c(1,size3)
+r1%>%
+  filter(!!sym(i) != "n") %>%
+  rbind(a) ->r1
+r2 %>%
+  filter(!!sym(i) != "n")%>%
+  rbind(b)%>%
+  select(-i)->r2
+r3%>%
+  filter(!!sym(i) != "n")%>%
+  rbind(c)%>%
+  select(-i) ->r3
+r5 <- cbind(r1,r2,r3,r4)
+r5[r5 == 1] <- "Unweighted sample size"
+r5%>%
+  relocate(american, .after = i)%>%
+  kable(caption =attr(i, "label"), digits = 0, 
+        col.names = c(" ", "All_Americans\nA", 'White\nB', 'Black\nC', 'Hispanic\nD', 'Other\nE',
+                      'Multiracial\nF', 'White, no 4-year college degree\nG', 'White, 4- year college degree +\nH',
+                      'NorthEast\nI', 'MidWest\nJ', 'South\nK','West\nL')) %>%
+  kable_styling("striped", full_width = F,
+                position = "left", font_size = 12) %>%
+  add_header_above(c(" " = 1, "All Americans" = 1, "Race/Ethnicity" = 5, "White education" = 2, "Region" = 4))-> r5
+print(r5)
+  }
+}
+race_table(test1)
+```
+
